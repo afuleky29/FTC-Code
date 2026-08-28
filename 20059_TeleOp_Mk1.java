@@ -19,7 +19,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     //initialization code here
     //for example vArIaBlEs
     int speed = 1; //1:slow 2:fast
-    bool instructions = true; //turn on off instructions
+    boolean instructions = true; //turn on off instructions
     waitForStart();
     if (opModeIsActive()); {
       // run code ONCE here
