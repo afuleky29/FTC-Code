@@ -19,6 +19,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     //initialization code here
     //for example vArIaBlEs
     int speed = 1; //1:slow, 2:medium, 3:fast
+    bool instructions = true; //turn on off instructions
     waitForStart();
     if (opModeIsActive()); {
       // run code ONCE here
@@ -39,12 +40,24 @@ public class _20059TeleOpMk1 extends LinearOpMode {
         float leftX = -gamepad1.left_stick_x;
         float leftY = -gamepad1.left_stick_y;
         float rightX = -gamepad1.right_stick_x;
+        //speed controls
+        if (gamepad1.y) {
+          //slow
+          speed = 1;
+        } elif (gamepad1.x) {
+          //medium
+          speed = 2;
+        } elif (gamepad1.a) {
+          //fast (very speed)
+          speed = 3;
+        }
+
         if (leftY != 0) {
           //foward backward
-          FL.setPower(-leftY);
-          FR.setPower(leftY);
-          BL.setPower(-leftY);
-          BR.setPower(leftY);
+          FL.setPower(-leftY*speed);
+          FR.setPower(leftY*speed);
+          BL.setPower(-leftY*speed);
+          BR.setPower(leftY*speed);
         } else {
           //stopping is desireable
           FL.setPower(0);
@@ -55,20 +68,29 @@ public class _20059TeleOpMk1 extends LinearOpMode {
         
         if (leftX != 0) {
           //rotate left right
-          FL.setPower(leftX);
-          BL.setPower(leftX);
-          FR.setPower(leftX);
-          BR.setPower(leftX);
+          FL.setPower(leftX*speed);
+          BL.setPower(leftX*speed);
+          FR.setPower(leftX*speed);
+          BR.setPower(leftX*speed);
         }
         
         if (rightX != 0) {
           //strafe left right
-          FL.setPower(rightX);
-          FR.setPower(rightX);
-          BL.setPower(-rightX);
-          BR.setPower(-rightX);
+          FL.setPower(rightX*speed);
+          FR.setPower(rightX*speed);
+          BL.setPower(-rightX*speed);
+          BR.setPower(-rightX*speed);
         }
-        //stuff on side
+        //text on side
+        if (instructions == true) {
+          //this is way overcomplicated its not really necessary (but exactly 100 lines)
+          telemetry.item instructions = telemetry.addData("CSM stands for 'Current Speed Mode', the gamepad 1 leftY and leftX are for debugging, nevermind them");
+          telemetry.addItem(instructions);
+        } else {
+          telemetry.removeItem(instructions);
+        }
+        telemetry.addData("-----------------");
+        telemetry.addData("CSM", speed);
         telemetry.addData("Gamepad 1 LeftY", leftY);
         telemetry.addData("Gamepad 1 LeftX", leftX);
         telemetry.update();
