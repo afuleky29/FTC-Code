@@ -18,7 +18,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
   public void runOpMode() {
     //initialization code here
     //for example vArIaBlEs
-    int speed = 1; //1:slow, 2:medium, 3:fast
+    int speed = 1; //1:slow 2:fast
     bool instructions = true; //turn on off instructions
     waitForStart();
     if (opModeIsActive()); {
@@ -37,19 +37,16 @@ public class _20059TeleOpMk1 extends LinearOpMode {
       while (opModeIsActive()) {
         // loop code here
         //joystick readouts
-        float leftX = -gamepad1.left_stick_x;
-        float leftY = -gamepad1.left_stick_y;
-        float rightX = -gamepad1.right_stick_x;
+        float leftX = -gamepad1.left_stick_x/2;
+        float leftY = -gamepad1.left_stick_y/2;
+        float rightX = -gamepad1.right_stick_x/2;
         //speed controls
         if (gamepad1.y) {
-          //slow
+          //slow (not very speed)
           speed = 1;
         } elif (gamepad1.x) {
-          //medium
-          speed = 2;
-        } elif (gamepad1.a) {
           //fast (very speed)
-          speed = 3;
+          speed = 2;
         }
 
         if (leftY != 0) {
