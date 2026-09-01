@@ -15,7 +15,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     int speed = 1; //1:slow 2:fast
     boolean instructions = true; //turn on off instructions
     if (instructions == true) {
-    telemetry.addData("CSM stands for 'Current Speed Mode', the gamepad 1 leftY and leftX are for debugging, nevermind them");
+      telemetry.addData("CSM stands for 'Current Speed Mode', the gamepad 1 leftY and leftX are for debugging, nevermind them");
     }
 
     waitForStart();
@@ -63,20 +63,20 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           BR.setPower(0);
         }
         
-        if (leftX != 0) {
+        if (rightX != 0) {
           //rotate left right
-          FL.setPower(leftX*speed);
-          BL.setPower(leftX*speed);
-          FR.setPower(leftX*speed);
-          BR.setPower(leftX*speed);
+          FL.setPower(rightX*speed);
+          BL.setPower(rightX*speed);
+          FR.setPower(righX*speed);
+          BR.setPower(rightX*speed);
         }
         
-        if (rightX != 0) {
+        if (leftX != 0) {
           //strafe left right
-          FL.setPower(rightX*speed);
-          FR.setPower(rightX*speed);
-          BL.setPower(-rightX*speed);
-          BR.setPower(-rightX*speed);
+          FL.setPower(leftX*speed);
+          FR.setPower(leftX*speed);
+          BL.setPower(-leftX*speed);
+          BR.setPower(-leftX*speed);
         }
         //TELEMETRY (read the readme)
         //text on side is telemetry
