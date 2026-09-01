@@ -7,22 +7,21 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name = "_20059TeleOpMk1", group = "Linear OpMode")
 public class _20059TeleOpMk1 extends LinearOpMode {
 
-  /**
-   * This sample contains the bare minimum Blocks for any regular OpMode. The 3 blue
-   * Comment Blocks show where to place Initialization code (runs once, after touching the
-   * DS INIT button, and before touching the DS Start arrow), Run code (runs once, after
-   * touching Start), and Loop code (runs repeatedly while the OpMode is active, namely not
-   * Stopped).
-   */
   @Override
   public void runOpMode() {
-    //initialization code here
+    /*INITIALIZATION*/
+    //RUNS ONCE on INT (Before run)
     //for example vArIaBlEs
     int speed = 1; //1:slow 2:fast
     boolean instructions = true; //turn on off instructions
+    if (instructions == true) {
+    telemetry.addData("CSM stands for 'Current Speed Mode', the gamepad 1 leftY and leftX are for debugging, nevermind them");
+    }
+
     waitForStart();
     if (opModeIsActive()); {
-      // run code ONCE here
+      /*PLAY ONCE*/
+      // RUNS ONCE on PLAY (After run)
       //motor definitions
       DcMotor FL;//namehere//
       DcMotor FR;
@@ -35,7 +34,8 @@ public class _20059TeleOpMk1 extends LinearOpMode {
       BR = hardwareMap.get(DcMotor.class, "BR");
       
       while (opModeIsActive()) {
-        // loop code here
+        /*PLAY FOREVER*/
+        //RUNS FOREVER (as long as programs runs)
         //joystick readouts
         float leftX = -gamepad1.left_stick_x/2;
         float leftY = -gamepad1.left_stick_y/2;
@@ -44,7 +44,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
         if (gamepad1.y) {
           //slow (not very speed)
           speed = 1;
-        } elif (gamepad1.x) {
+        } else if (gamepad1.x) {
           //fast (very speed)
           speed = 2;
         }
@@ -78,14 +78,8 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           BL.setPower(-rightX*speed);
           BR.setPower(-rightX*speed);
         }
-        //text on side
-        if (instructions == true) {
-          //this is way overcomplicated its not really necessary (but exactly 100 lines)
-          telemetry.item instructions = telemetry.addData("CSM stands for 'Current Speed Mode', the gamepad 1 leftY and leftX are for debugging, nevermind them");
-          telemetry.addItem(instructions);
-        } else {
-          telemetry.removeItem(instructions);
-        }
+        //TELEMETRY (read the readme)
+        //text on side is telemetry
         telemetry.addData("-----------------");
         telemetry.addData("CSM", speed);
         telemetry.addData("Gamepad 1 LeftY", leftY);
