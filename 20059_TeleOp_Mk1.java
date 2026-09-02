@@ -32,6 +32,10 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     BR = hardwareMap.get(DcMotor.class, "BR");
     telemetry.addData("Instructions", instructions);
     telemetry.addData("ZPB", ZPB);
+    telemetry.addLine("B for On/Off Instructions");
+    telemetry.addLine("X for On/Off ZPB");
+    telemetry.addLine("Y for On/Off Debug");
+
     telemetry.update();
     while (opModeInInit()) {
       if (gamepad1.b) {
@@ -41,20 +45,23 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           instructions = 1;
         }
       }
-      if (gamepad1.y) {
+      if (gamepad1.x) {
         if (ZPB == 1) {
           ZPB = 0;
         } else {
           ZPB = 1;
         }
       }
-      if (gamepad1.x) {
+      if (gamepad1.y) {
         if (debug == 1) {
           debug = 0;
         } else {
           debug = 1;
         }
       }
+      telemetry.addLine("B for On/Off Instructions");
+      telemetry.addLine("X for On/Off ZPB");
+      telemetry.addLine("Y for On/Off Debug");
       telemetry.addData("Instructions", instructions);
       telemetry.addData("ZPB", ZPB);
       telemetry.addData("Debug", debug);
@@ -65,7 +72,13 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     if (opModeIsActive()); {
       /*PLAY ONCE*/
       // RUNS ONCE on PLAY (After run)
-      
+      string zpbMode = "On";
+      if (ZPB == 1) {
+        zpbMode = "On";
+      } else {
+        zpbMode = "Off";
+      }
+
       while (opModeIsActive()) {
         /*PLAY FOREVER*/
         //RUNS FOREVER (as long as programs runs)
@@ -73,6 +86,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
         float leftX = -gamepad1.left_stick_x/2;
         float leftY = -gamepad1.left_stick_y/2;
         float rightX = -gamepad1.right_stick_x/2;
+        float rightY = -gamepad1.right_stick_y/2;
         //speed controls
         if (gamepad1.y) {
           //slow (not very speed)
@@ -122,15 +136,18 @@ public class _20059TeleOpMk1 extends LinearOpMode {
         //telemetry.addData("-----------------");
         if (instructions == 1) {
           telemetry.addLine("CSM stands for 'Current Speed Mode'");
+          telemetry.addData("ZPB stands for 'Zero Power Behavior' (Auto Dampeners)", zpbMode);
           telemetry.addLine("----------");
         }
-        if (debug == 1) {
-          telemetry.addData("Gamepad 1 LeftY", leftY);
-          telemetry.addData("Gamepad 1 LeftX", leftX);
-        }
         telemetry.addData("CSM", speed);
+        if (debug == 1) {
+          telemetry.addLine("----------");
+          telemetry.addData("Gamepad 1 LeftX", leftX);
+          telemetry.addData("Gamepad 1 LeftY", leftY);
+          telemetry.addData("Gamepad 1 RightX", rightX);
+          telemetry.addData("Gamepad 1 RightY", rightY);
+        }
         telemetry.update();
-        
       }
     }
   }
