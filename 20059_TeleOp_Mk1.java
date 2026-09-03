@@ -9,8 +9,6 @@ public class _20059TeleOpMk1 extends LinearOpMode {
 
 //telemetry.addLine("A/B for On/Off Instructions");
 //telemetry.addLine("X/Y for On/Off ZPB");
-
-
   
   @Override
   public void runOpMode() {
@@ -72,7 +70,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     if (opModeIsActive()); {
       /*PLAY ONCE*/
       // RUNS ONCE on PLAY (After run)
-      string zpbMode = "On";
+      String zpbMode = "On";
       if (ZPB == 1) {
         zpbMode = "On";
       } else {
