@@ -58,8 +58,8 @@ public class _20059TeleOpMk1 extends LinearOpMode {
         }
       }
       telemetry.addLine("B for On/Off Instructions");
-      telemetry.addLine("X for On/Off ZPB");
       telemetry.addLine("Y for On/Off Debug");
+      telemetry.addLine("X for On/Off ZPB");
       telemetry.addData("Instructions", instructions);
       telemetry.addData("ZPB", ZPB);
       telemetry.addData("Debug", debug);
