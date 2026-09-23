@@ -23,11 +23,13 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     DcMotor FR;
     DcMotor BL;
     DcMotor BR;
+    DcMotor Intake;
     //map motor to variable
     FL = hardwareMap.get(DcMotor.class, "FL");
     FR = hardwareMap.get(DcMotor.class, "FR");
     BL = hardwareMap.get(DcMotor.class, "BL");
     BR = hardwareMap.get(DcMotor.class, "BR");
+    Intake = hardwareMap.get(DcMotor.class, "intake");
     telemetry.addData("Instructions", instructions);
     telemetry.addData("ZPB", ZPB);
     telemetry.addLine("B for On/Off Instructions");
@@ -85,6 +87,8 @@ public class _20059TeleOpMk1 extends LinearOpMode {
         float leftY = -gamepad1.left_stick_y/2;
         float rightX = -gamepad1.right_stick_x/2;
         float rightY = -gamepad1.right_stick_y/2;
+        float rightTrigger = -gamepad1.right_trigger;
+        float leftTrigger = -gamepad1.left_trigger;
         //speed controls
         if (gamepad1.y) {
           //slow (not very speed)
@@ -129,6 +133,19 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           BL.setPower(-leftX*speed);
           BR.setPower(-leftX*speed);
         }
+
+        if (gamepad1.right_trigger > 0) {
+          Intake.setPower(rightTrigger);
+        } else {
+          Intake.setPower(0);
+        }
+       
+        if (gamepad1.left_trigger > 0) {
+          Intake.setPower(-leftTrigger);
+        } else {
+          Intake.setPower(0);
+        }
+        
         //TELEMETRY (read the readme)
         //text on side is telemetry
         //telemetry.addData("-----------------");
