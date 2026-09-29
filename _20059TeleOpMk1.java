@@ -21,6 +21,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     int debug = 0;
     int speed = 1; //1slow 2fast
     int direction = 1;
+    int servoLoop = 0;
     DcMotor FL;//namehere//
     DcMotor FR;
     DcMotor BL;
@@ -118,9 +119,15 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           // start the servo off at closed position (0)
           // move the servo to out (60)
           // return
-          Flipper.setPosition(0);
-          Flipper.setPosition(1/3);
-          Flipper.setPosition(0);
+          while (servoLoop < 3) {
+            Flipper.setPosition(0);
+            Flipper.setPosition(0.333);
+            sleep(500);
+            Flipper.setPosition(0);
+            sleep(250);
+            servoLoop += 1;
+          }
+          servoLoop = 0;
         }
           
         if (leftY != 0) {
