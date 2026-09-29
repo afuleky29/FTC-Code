@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "_20059TeleOpMk1", group = "Linear OpMode")
 public class _20059TeleOpMk1 extends LinearOpMode {
@@ -19,17 +20,20 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     int ZPB = 1; //turn on off fast stop (Zero Power Behavior)
     int debug = 0;
     int speed = 1; //1slow 2fast
+    int direction = 1;
     DcMotor FL;//namehere//
     DcMotor FR;
     DcMotor BL;
     DcMotor BR;
     DcMotor Intake;
+    Servo Flipper;
     //map motor to variable
     FL = hardwareMap.get(DcMotor.class, "FL");
     FR = hardwareMap.get(DcMotor.class, "FR");
     BL = hardwareMap.get(DcMotor.class, "BL");
     BR = hardwareMap.get(DcMotor.class, "BR");
-    Intake = hardwareMap.get(DcMotor.class, "intake");
+    Intake = hardwareMap.get(DcMotor.class, "Intake");
+    Flipper = hardwareMap.get(Servo.class, "Flipper");
     telemetry.addData("Instructions", instructions);
     telemetry.addData("ZPB", ZPB);
     telemetry.addLine("B for On/Off Instructions");
@@ -93,17 +97,38 @@ public class _20059TeleOpMk1 extends LinearOpMode {
         if (gamepad1.y) {
           //slow (not very speed)
           speed = 1;
-        } else if (gamepad1.x) {
+        }
+        
+        if (gamepad1.x) {
           //fast (very speed)
           speed = 2;
         }
-
+        
+        if (gamepad1.a) {
+          if (direction == 1) {
+            // reverse direction
+            direction = -1;
+          } else {
+            // normal direction
+            direction = 1;
+          }
+        }
+        
+        if (gamepad1.b) {
+          // start the servo off at closed position (0)
+          // move the servo to out (60)
+          // return
+          Flipper.setPosition(0);
+          Flipper.setPosition(1/3);
+          Flipper.setPosition(0);
+        }
+          
         if (leftY != 0) {
           //foward backward
-          FL.setPower(-leftY*speed);
-          FR.setPower(leftY*speed);
-          BL.setPower(-leftY*speed);
-          BR.setPower(leftY*speed);
+          FL.setPower(-leftY*speed*direction);
+          FR.setPower(leftY*speed*direction);
+          BL.setPower(-leftY*speed*direction);
+          BR.setPower(leftY*speed*direction);
         } else {
           //stopping is desireable
           FL.setPower(0);
@@ -128,24 +153,23 @@ public class _20059TeleOpMk1 extends LinearOpMode {
         
         if (leftX != 0) {
           //strafe left right
-          FL.setPower(leftX*speed);
-          FR.setPower(leftX*speed);
-          BL.setPower(-leftX*speed);
-          BR.setPower(-leftX*speed);
+          FL.setPower(leftX*speed*direction);
+          FR.setPower(leftX*speed*direction);
+          BL.setPower(-leftX*speed*direction);
+          BR.setPower(-leftX*speed*direction);
         }
-
+        
         if (gamepad1.right_trigger > 0) {
           Intake.setPower(rightTrigger);
         } else {
           Intake.setPower(0);
         }
-       
+        
         if (gamepad1.left_trigger > 0) {
           Intake.setPower(-leftTrigger);
         } else {
           Intake.setPower(0);
         }
-        
         //TELEMETRY (read the readme)
         //text on side is telemetry
         //telemetry.addData("-----------------");
