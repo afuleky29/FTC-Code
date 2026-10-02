@@ -10,7 +10,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
 
 //telemetry.addLine("A/B for On/Off Instructions");
 //telemetry.addLine("X/Y for On/Off ZPB");
-  
+ 
   @Override
   public void runOpMode() {
     /*INITIALIZATION*/
@@ -28,6 +28,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     DcMotor BR;
     DcMotor Intake;
     Servo Flipper;
+    Servo Shoot;
     //map motor to variable
     FL = hardwareMap.get(DcMotor.class, "FL");
     FR = hardwareMap.get(DcMotor.class, "FR");
@@ -35,6 +36,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     BR = hardwareMap.get(DcMotor.class, "BR");
     Intake = hardwareMap.get(DcMotor.class, "Intake");
     Flipper = hardwareMap.get(Servo.class, "Flipper");
+    Shoot = hardwareMap.get(Servo.class, "Shoot");
     telemetry.addData("Instructions", instructions);
     telemetry.addData("ZPB", ZPB);
     telemetry.addLine("B for On/Off Instructions");
@@ -72,7 +74,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
       telemetry.addData("Debug", debug);
       telemetry.update();
     }
-    
+   
     waitForStart();
     if (opModeIsActive()); {
       /*PLAY ONCE*/
@@ -99,12 +101,12 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           //slow (not very speed)
           speed = 1;
         }
-        
+       
         if (gamepad1.x) {
           //fast (very speed)
           speed = 2;
         }
-        
+       
         if (gamepad1.a) {
           if (direction == 1) {
             // reverse direction
@@ -114,7 +116,12 @@ public class _20059TeleOpMk1 extends LinearOpMode {
             direction = 1;
           }
         }
-        
+       
+        if (gamepad1.rightBumper) {
+          Shoot.setPosition(0);
+          Shoot.setPosition(0.25);
+        }
+       
         if (gamepad1.b) {
           // start the servo off at closed position (0)
           // move the servo to out (60)
@@ -129,7 +136,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           }
           servoLoop = 0;
         }
-          
+         
         if (leftY != 0) {
           //foward backward
           FL.setPower(-leftY*speed*direction);
@@ -149,7 +156,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
             BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
           }
         }
-        
+       
         if (rightX != 0) {
           //rotate left right
           FL.setPower(rightX*speed);
@@ -157,7 +164,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           FR.setPower(rightX*speed);
           BR.setPower(rightX*speed);
         }
-        
+       
         if (leftX != 0) {
           //strafe left right
           FL.setPower(leftX*speed*direction);
@@ -165,13 +172,13 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           BL.setPower(-leftX*speed*direction);
           BR.setPower(-leftX*speed*direction);
         }
-        
+       
         if (gamepad1.right_trigger > 0) {
           Intake.setPower(rightTrigger);
         } else {
           Intake.setPower(0);
         }
-        
+       
         if (gamepad1.left_trigger > 0) {
           Intake.setPower(-leftTrigger);
         } else {
@@ -197,4 +204,3 @@ public class _20059TeleOpMk1 extends LinearOpMode {
       }
     }
   }
-}
