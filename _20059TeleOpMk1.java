@@ -10,7 +10,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
 
 //telemetry.addLine("A/B for On/Off Instructions");
 //telemetry.addLine("X/Y for On/Off ZPB");
- 
+  
   @Override
   public void runOpMode() {
     /*INITIALIZATION*/
@@ -22,21 +22,24 @@ public class _20059TeleOpMk1 extends LinearOpMode {
     int speed = 1; //1slow 2fast
     int direction = 1;
     int servoLoop = 0;
+    int shooterPower = 0;
     DcMotor FL;//namehere//
     DcMotor FR;
     DcMotor BL;
     DcMotor BR;
     DcMotor Intake;
+    DcMotor Shooter;
     Servo Flipper;
-    Servo Shoot;
+    Servo Launch;
     //map motor to variable
     FL = hardwareMap.get(DcMotor.class, "FL");
     FR = hardwareMap.get(DcMotor.class, "FR");
     BL = hardwareMap.get(DcMotor.class, "BL");
     BR = hardwareMap.get(DcMotor.class, "BR");
     Intake = hardwareMap.get(DcMotor.class, "Intake");
+    Shooter = hardwareMap.get(DcMotor.class, "Shooter");
     Flipper = hardwareMap.get(Servo.class, "Flipper");
-    Shoot = hardwareMap.get(Servo.class, "Shoot");
+    Launch = hardwareMap.get(Servo.class, "Launch");
     telemetry.addData("Instructions", instructions);
     telemetry.addData("ZPB", ZPB);
     telemetry.addLine("B for On/Off Instructions");
@@ -74,7 +77,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
       telemetry.addData("Debug", debug);
       telemetry.update();
     }
-   
+    
     waitForStart();
     if (opModeIsActive()); {
       /*PLAY ONCE*/
@@ -101,12 +104,12 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           //slow (not very speed)
           speed = 1;
         }
-       
+        
         if (gamepad1.x) {
           //fast (very speed)
           speed = 2;
         }
-       
+        
         if (gamepad1.a) {
           if (direction == 1) {
             // reverse direction
@@ -116,12 +119,12 @@ public class _20059TeleOpMk1 extends LinearOpMode {
             direction = 1;
           }
         }
-       
-        if (gamepad1.rightBumper) {
-          Shoot.setPosition(0);
-          Shoot.setPosition(0.25);
+        
+        if (gamepad1.right_bumper) {
+          Launch.setPosition(0);
+          Launch.setPosition(0.25);
         }
-       
+        
         if (gamepad1.b) {
           // start the servo off at closed position (0)
           // move the servo to out (60)
@@ -136,7 +139,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           }
           servoLoop = 0;
         }
-         
+          
         if (leftY != 0) {
           //foward backward
           FL.setPower(-leftY*speed*direction);
@@ -156,7 +159,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
             BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
           }
         }
-       
+        
         if (rightX != 0) {
           //rotate left right
           FL.setPower(rightX*speed);
@@ -164,7 +167,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           FR.setPower(rightX*speed);
           BR.setPower(rightX*speed);
         }
-       
+        
         if (leftX != 0) {
           //strafe left right
           FL.setPower(leftX*speed*direction);
@@ -172,18 +175,36 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           BL.setPower(-leftX*speed*direction);
           BR.setPower(-leftX*speed*direction);
         }
-       
+        
         if (gamepad1.right_trigger > 0) {
           Intake.setPower(rightTrigger);
         } else {
           Intake.setPower(0);
         }
-       
+        
         if (gamepad1.left_trigger > 0) {
           Intake.setPower(-leftTrigger);
         } else {
           Intake.setPower(0);
         }
+        
+        if (gamepad1.dpad_up) {
+          shooterPower += 1;
+        } else if (gamepad1.dpad_down) {
+          shooterPower -=1;
+          if (shooterPower < 0) {
+            shooterPower = 0;
+          }
+        } else {
+          shooterPower = 0;
+        }
+        
+        if (shooterPower != 0) {
+          Shooter.setPower(shooterPower/3);
+        } else {
+          Shooter.setPower(0);
+        }
+        
         //TELEMETRY (read the readme)
         //text on side is telemetry
         //telemetry.addData("-----------------");
@@ -192,6 +213,7 @@ public class _20059TeleOpMk1 extends LinearOpMode {
           telemetry.addData("ZPB stands for 'Zero Power Behavior' (Auto Dampeners)", zpbMode);
           telemetry.addLine("----------");
         }
+        
         telemetry.addData("CSM", speed);
         if (debug == 1) {
           telemetry.addLine("----------");
@@ -204,3 +226,5 @@ public class _20059TeleOpMk1 extends LinearOpMode {
       }
     }
   }
+}
+
